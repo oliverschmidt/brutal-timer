@@ -40,8 +40,10 @@ void main(void) {
 
     set_sys_clock_khz(200000, false);
 
-    gpio_init(PICO_DEFAULT_LED_PIN);
-    gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
+    if (a2pico_led() >= 0) {
+        gpio_init(a2pico_led());
+        gpio_set_dir(a2pico_led(), GPIO_OUT);
+    }
 
     stdio_init_all();
 
@@ -55,6 +57,8 @@ void main(void) {
             }
         }
 
-        gpio_put(PICO_DEFAULT_LED_PIN, stdio_usb_connected());
+        if (a2pico_led() >= 0) {
+            gpio_put(a2pico_led(), stdio_usb_connected());
+        }
     }
 }
